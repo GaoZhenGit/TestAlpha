@@ -1,6 +1,7 @@
 package com.akilgao.testalpha;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MainAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (mAdapter != null) {
+                    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int pos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    mAdapter.onScroll(dx,dy, (MainViewHolder) recyclerView.findViewHolderForAdapterPosition(pos));
+                }
+            }
+        });
     }
 
     private String file(String name) {

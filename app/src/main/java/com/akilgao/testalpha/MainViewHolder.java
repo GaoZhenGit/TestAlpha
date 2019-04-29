@@ -1,22 +1,18 @@
 package com.akilgao.testalpha;
 
 import android.graphics.Bitmap;
-import android.graphics.SurfaceTexture;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Surface;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class MainViewHolder extends RecyclerView.ViewHolder{
+public class MainViewHolder extends RecyclerView.ViewHolder {
 
     private static final String TAG = "MainViewHolder";
     private TextView mTvTitle;
@@ -38,7 +34,13 @@ public class MainViewHolder extends RecyclerView.ViewHolder{
         mTvTitle.setText(data.title);
         if (!TextUtils.isEmpty(data.url)) {
             mTvVideo.setData(data.url);
+            Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(Uri.parse(data.url).getPath(), MediaStore.Images.Thumbnails.MICRO_KIND);
+            mIvCover.setImageBitmap(bitmap);
         }
+    }
+
+    public void onStopScroll() {
+        mTvVideo.onClick(null);
     }
 
     public void onViewAttachedToWindow() {
@@ -46,6 +48,6 @@ public class MainViewHolder extends RecyclerView.ViewHolder{
     }
 
     public void onViewDetachedFromWindow() {
-        mIvCover.setVisibility(View.VISIBLE);
+
     }
 }

@@ -1,5 +1,8 @@
 package com.akilgao.testalpha;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +14,15 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
     private List<MainData> mData;
-    private MainViewHolder lastViewHolder;
+    private Handler mainHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            if (mVisiableViewHolder != null) {
+                mVisiableViewHolder.onStopScroll();
+            }
+        }
+    };
+    private MainViewHolder mVisiableViewHolder;
 
     public MainAdapter(List<MainData> data) {
         this.mData = data;
@@ -27,7 +38,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MainViewHolder mainViewHolder, int i) {
         mainViewHolder.bindData(mData.get(i), i);
-        lastViewHolder = mainViewHolder;
     }
 
     @Override
@@ -45,5 +55,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     public void onViewDetachedFromWindow(@NonNull MainViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
         holder.onViewDetachedFromWindow();
+    }
+
+    public void onScroll(int dx, int dy, MainViewHolder viewHolder) {
+        mVisiableViewHolder = viewHolder;
+        mainHandler.removeMessages(123);
+        mainHandler.sendEmptyMessageDelayed(123, 200);
     }
 }

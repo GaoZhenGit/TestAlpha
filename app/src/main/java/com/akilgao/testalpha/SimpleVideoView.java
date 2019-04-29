@@ -80,6 +80,9 @@ public class SimpleVideoView extends TextureView implements TextureView.SurfaceT
         if (player.getSurface() == mSurface) {
             player.setSurface(null);
         }
+        if (cover != null) {
+            cover.setVisibility(VISIBLE);
+        }
         Log.i("cost", "onSurfaceTextureDestroyed:" + (System.currentTimeMillis() - start));
         return true;
     }
