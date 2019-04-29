@@ -34,7 +34,7 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
         mTvTitle.setText(data.title);
         if (!TextUtils.isEmpty(data.url)) {
             mTvVideo.setData(data.url);
-            Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(Uri.parse(data.url).getPath(), MediaStore.Images.Thumbnails.MICRO_KIND);
+            Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(Uri.parse(data.url).getPath(), MediaStore.Images.Thumbnails.MINI_KIND);
             mIvCover.setImageBitmap(bitmap);
         }
     }
