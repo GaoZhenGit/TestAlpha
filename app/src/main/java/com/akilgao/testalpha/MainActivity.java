@@ -29,19 +29,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init(View view) {
-        freeVideo("abc.mp4");
-        freeVideo("abcd.mp4");
-        freeVideo("abcde.mp4");
+        freeVideo("111.mp4");
+        freeVideo("222.mp4");
+        freeVideo("333.mp4");
+        freeVideo("444.mp4");
+        freeVideo("555.mp4");
 
         mData = new ArrayList<>();
-        mData.add(new MainData("first", file("abc.mp4")));
-        mData.add(new MainData("second", file("abcd.mp4")));
-        mData.add(new MainData("third", file("abcde.mp4")));
-        mData.add(new MainData("forth", file("abc.mp4")));
-        mData.add(new MainData("fifth", file("abcd.mp4")));
-        mData.add(new MainData("sixth", file("abcde.mp4")));
-        mData.add(new MainData("seventh", file("abc.mp4")));
-        mData.add(new MainData("eighth", file("abcd.mp4")));
+        mData.add(new MainData("first", file("111.mp4")));
+        mData.add(new MainData("second", file("222.mp4")));
+        mData.add(new MainData("third", file("333.mp4")));
+        mData.add(new MainData("forth", file("444.mp4")));
+        mData.add(new MainData("fifth", file("555.mp4")));
+        mData.add(new MainData("sixth", file("111.mp4")));
+        mData.add(new MainData("seventh", file("222.mp4")));
+        mData.add(new MainData("eighth", file("333.mp4")));
+        mData.add(new MainData("ninth", file("444.mp4")));
+        mData.add(new MainData("tenth", file("555.mp4")));
 
         mAdapter = new MainAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
