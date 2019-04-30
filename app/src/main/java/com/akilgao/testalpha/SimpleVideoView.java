@@ -16,7 +16,10 @@ import android.view.View;
 import java.io.IOException;
 
 
-public class SimpleVideoView extends TextureView implements TextureView.SurfaceTextureListener, MediaPlayer.OnPreparedListener, View.OnClickListener {
+public class SimpleVideoView extends TextureView implements
+        TextureView.SurfaceTextureListener,
+        MediaPlayer.OnPreparedListener, View.OnClickListener,
+        MediaPlayer.OnInfoListener{
     private Surface mSurface;
     private String mUrl;
     private View cover;
@@ -56,6 +59,7 @@ public class SimpleVideoView extends TextureView implements TextureView.SurfaceT
             player.setDataSource(mUrl);
             player.setLooping(true);
             player.setOnPreparedListener(this);
+            player.setOnInfoListener(this);
             player.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,10 +103,19 @@ public class SimpleVideoView extends TextureView implements TextureView.SurfaceT
         if (isAvailable()) {
             mp.setSurface(mSurface);
             mp.start();
+        }
+        Log.i("cost", "onPrepared:" + (System.currentTimeMillis() - start));
+    }
+
+    @Override
+    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
             if (cover != null) {
                 cover.setVisibility(GONE);
             }
+            return true;
+        } else {
+            return false;
         }
-        Log.i("cost", "onPrepared:" + (System.currentTimeMillis() - start));
     }
 }
