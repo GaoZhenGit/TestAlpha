@@ -1,4 +1,4 @@
-package com.akilgao.testalpha;
+package com.akilgao.testalpha.feed;
 
 
 public class MainData {

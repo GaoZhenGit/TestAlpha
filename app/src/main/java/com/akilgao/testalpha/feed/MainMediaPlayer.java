@@ -1,4 +1,4 @@
-package com.akilgao.testalpha;
+package com.akilgao.testalpha.feed;
 
 import android.media.MediaPlayer;
 import android.view.Surface;

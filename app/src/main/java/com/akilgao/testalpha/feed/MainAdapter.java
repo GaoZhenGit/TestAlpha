@@ -1,4 +1,4 @@
-package com.akilgao.testalpha;
+package com.akilgao.testalpha.feed;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.akilgao.testalpha.R;
 
 import java.util.List;
 

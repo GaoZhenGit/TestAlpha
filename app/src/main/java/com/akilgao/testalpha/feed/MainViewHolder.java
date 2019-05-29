@@ -1,4 +1,4 @@
-package com.akilgao.testalpha;
+package com.akilgao.testalpha.feed;
 
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -10,6 +10,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.akilgao.testalpha.R;
+import com.akilgao.testalpha.feed.MainData;
+import com.akilgao.testalpha.feed.SimpleVideoView;
 
 
 public class MainViewHolder extends RecyclerView.ViewHolder {
