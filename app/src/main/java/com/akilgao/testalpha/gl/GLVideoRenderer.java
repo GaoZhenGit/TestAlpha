@@ -195,6 +195,10 @@ public class GLVideoRenderer implements GLSurfaceView.Renderer, MediaPlayer.OnVi
 			Matrix.orthoM(projectionMatrix, 0, -screenRatio / videoRatio, screenRatio / videoRatio, -1f, 1f, -1f, 1f);
 	}
 
+	public void setMatrix(float[] matrix) {
+		System.arraycopy(matrix, 0, projectionMatrix, 0, projectionMatrix.length);
+	}
+
 	public MediaPlayer getMediaPlayer() {
 		return mediaPlayer;
 	}

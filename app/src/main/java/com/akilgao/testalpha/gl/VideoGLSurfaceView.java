@@ -12,6 +12,8 @@ import java.io.File;
  */
 public class VideoGLSurfaceView extends GLSurfaceView {
 
+	GLVideoRenderer mRenderer;
+
 	public VideoGLSurfaceView(Context context) {
 		super(context);
 		init();
@@ -33,8 +35,13 @@ public class VideoGLSurfaceView extends GLSurfaceView {
 
 	private void init(String path) {
 		setEGLContextClientVersion(2);
-		this.setRenderer(new GLVideoRenderer(getContext(),
-				new File(getContext().getExternalCacheDir(), path).toString()));
+		mRenderer = new GLVideoRenderer(getContext(),
+				new File(getContext().getExternalCacheDir(), path).toString());
+		this.setRenderer(mRenderer);
 		this.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+	}
+
+	public GLVideoRenderer getRenderer() {
+		return mRenderer;
 	}
 }
