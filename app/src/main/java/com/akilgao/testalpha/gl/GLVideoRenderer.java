@@ -93,8 +93,8 @@ public class GLVideoRenderer implements GLSurfaceView.Renderer, MediaPlayer.OnVi
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		String vertexShader = ShaderFactory.INSTANCE.getVertexShader();
-		String fragmentShader = ShaderFactory.INSTANCE.getFragmentShader();
+		String vertexShader = ShaderFactory.INSTANCE.getShader(context, "shader/normal_vertex_shader.glsl");
+		String fragmentShader = ShaderFactory.INSTANCE.getShader(context, "shader/gray_fragment_shader.glsl");
 		programId = ShaderFactory.INSTANCE.createProgram(vertexShader, fragmentShader);
 		aPositionLocation = GLES20.glGetAttribLocation(programId, "aPosition");
 

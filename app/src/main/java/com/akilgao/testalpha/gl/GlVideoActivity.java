@@ -18,9 +18,13 @@ public class GlVideoActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_gl_video);
 		mContainer = findViewById(R.id.ll_container);
 
-		glview1 = new VideoGLSurfaceView(this);
+		glview1 = new VideoGLSurfaceView(this, "111.mp4");
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(600, 600);
 		glview1.setLayoutParams(params);
 		mContainer.addView(glview1);
+
+		glview2 = new VideoGLSurfaceView(this, "222.mp4");
+		glview2.setLayoutParams(params);
+		mContainer.addView(glview2);
 	}
 }

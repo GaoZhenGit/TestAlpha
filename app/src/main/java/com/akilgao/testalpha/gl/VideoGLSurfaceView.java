@@ -17,15 +17,24 @@ public class VideoGLSurfaceView extends GLSurfaceView {
 		init();
 	}
 
+	public VideoGLSurfaceView(Context context, String path) {
+		super(context);
+		init(path);
+	}
+
 	public VideoGLSurfaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
 
 	private void init() {
+		init("111.mp4");
+	}
+
+	private void init(String path) {
 		setEGLContextClientVersion(2);
 		this.setRenderer(new GLVideoRenderer(getContext(),
-				new File(getContext().getExternalCacheDir(), "111.mp4").toString()));
+				new File(getContext().getExternalCacheDir(), path).toString()));
 		this.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
 }

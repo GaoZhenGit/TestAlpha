@@ -1,5 +1,6 @@
 package com.akilgao.testalpha.gl
 
+import android.content.Context
 import android.opengl.GLES20
 import android.util.Log
 
@@ -8,34 +9,16 @@ import android.util.Log
  */
 object ShaderFactory {
     val TAG = "ShaderFactory"
-    fun getVertexShader(): String {
-        return """
-attribute vec4 aPosition;
-attribute vec4 aTexCoord;
-varying vec2 vTexCoord;
-uniform mat4 uMatrix;
-uniform mat4 uSTMatrix;
-void main() {
-    vTexCoord = (uSTMatrix * aTexCoord).xy;
-    gl_Position = uMatrix*aPosition;
-}"""
-    }
 
-    fun getFragmentShader(): String {
-        return """
-#extension GL_OES_EGL_image_external : require
-precision mediump float;
-varying vec2 vTexCoord;
-uniform samplerExternalOES sTexture;
-void main() {
-    vec4 rgbaData;
-    vec3 grayData;
-    rgbaData = texture2D(sTexture, vTexCoord);
-    grayData.x = (rgbaData.x + rgbaData.y + rgbaData.z) / 3.0;
-    grayData.y = grayData.x;
-    grayData.z = grayData.x;
-    gl_FragColor = vec4(grayData, 1.0);
-}"""
+    fun getShader(context:Context, shaderName:String):String {
+        val inputStream = context.assets.open(shaderName)
+        var len: Int
+        val bytes = ByteArray(4096)
+        val sb = StringBuffer()
+        while (inputStream.read(bytes).apply { len = this } > 0) {
+            sb.append(String(bytes, 0, len))
+        }
+        return sb.toString()
     }
 
     private fun loadShader(type: Int, shaderCode: String): Int {
@@ -74,6 +57,8 @@ void main() {
         checkError()
         GLES20.glLinkProgram(program)
         checkError()
+        GLES20.glDeleteShader(vertexShader)
+        GLES20.glDeleteShader(fragmentShader)
         return program
     }
 }
