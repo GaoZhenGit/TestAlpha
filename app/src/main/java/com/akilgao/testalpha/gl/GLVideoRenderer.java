@@ -94,7 +94,7 @@ public class GLVideoRenderer implements GLSurfaceView.Renderer, MediaPlayer.OnVi
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		String vertexShader = ShaderFactory.INSTANCE.getShader(context, "shader/normal_vertex_shader.glsl");
-		String fragmentShader = ShaderFactory.INSTANCE.getShader(context, "shader/gray_fragment_shader.glsl");
+		String fragmentShader = ShaderFactory.INSTANCE.getShader(context, "shader/normal_fragment_shader.glsl");
 		programId = ShaderFactory.INSTANCE.createProgram(vertexShader, fragmentShader);
 		aPositionLocation = GLES20.glGetAttribLocation(programId, "aPosition");
 
@@ -155,6 +155,9 @@ public class GLVideoRenderer implements GLSurfaceView.Renderer, MediaPlayer.OnVi
 			}
 		}
 		GLES20.glUseProgram(programId);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
 		GLES20.glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0);
 		GLES20.glUniformMatrix4fv(uSTMMatrixHandle, 1, false, mSTMatrix, 0);
 
@@ -183,7 +186,7 @@ public class GLVideoRenderer implements GLSurfaceView.Renderer, MediaPlayer.OnVi
 	@Override
 	public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
 		Log.d(TAG, "onVideoSizeChanged: " + width + " " + height);
-		updateProjection(width, height);
+//		updateProjection(width, height);
 	}
 
 	private void updateProjection(int videoWidth, int videoHeight) {
