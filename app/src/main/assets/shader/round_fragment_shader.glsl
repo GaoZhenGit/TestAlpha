@@ -9,5 +9,10 @@ float dist(float x, float y, float cx, float cy) {
 
 void main() {
     vec4 rgbaData;
-    gl_FragColor = texture2D(sTexture, vTexCoord);
+    rgbaData = texture2D(sTexture, vTexCoord);
+    if (dist(vTexCoord.x, vTexCoord.y, 0.5f, 0.5f) > 0.2f) {
+        gl_FragColor = vec4(rgbaData.xyz, 0.4);
+    } else {
+        gl_FragColor = rgbaData;
+    }
 }
