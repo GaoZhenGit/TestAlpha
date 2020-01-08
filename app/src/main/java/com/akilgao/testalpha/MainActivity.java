@@ -14,6 +14,7 @@ import com.akilgao.testalpha.feed.MainAdapter;
 import com.akilgao.testalpha.feed.MainData;
 import com.akilgao.testalpha.feed.MainViewHolder;
 import com.akilgao.testalpha.gl.GlVideoActivity;
+import com.akilgao.testalpha.guide.GuideActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -51,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void feed(View view) {
         startActivity(new Intent(this, FeedActivity.class));
+    }
+
+    public void startGuild(View view) {
+        startActivity(new Intent(this, GuideActivity.class));
     }
 
     public void init(View view) {
