@@ -16,6 +16,7 @@
         <activity android:name=".guide.GuideActivity"/>
         <activity android:name=".feed.FeedActivity"/>
         <activity android:name=".gl.GlVideoActivity" />
+        <activity android:name=".window.JumpActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

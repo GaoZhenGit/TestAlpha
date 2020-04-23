@@ -1,20 +1,14 @@
 package com.akilgao.testalpha;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.akilgao.testalpha.feed.FeedActivity;
-import com.akilgao.testalpha.feed.MainAdapter;
-import com.akilgao.testalpha.feed.MainData;
-import com.akilgao.testalpha.feed.MainViewHolder;
 import com.akilgao.testalpha.gl.GlVideoActivity;
 import com.akilgao.testalpha.guide.GuideActivity;
+import com.akilgao.testalpha.window.JumpActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -56,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startGuild(View view) {
         startActivity(new Intent(this, GuideActivity.class));
+    }
+
+    public void startJump(View view) {
+        startActivity(new Intent(this, JumpActivity.class));
     }
 
     public void init(View view) {
