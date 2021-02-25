@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".sign.SignActivity">
+
+    <Button
+        android:id="@+id/btn_show_signature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showSign"
+        android:text="show signature"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_signature_base64"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/tv_signature_sha1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/tv_signature_md5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="8sp" />
+</LinearLayout>

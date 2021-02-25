@@ -8,6 +8,7 @@ import android.view.View;
 import com.akilgao.testalpha.feed.FeedActivity;
 import com.akilgao.testalpha.gl.GlVideoActivity;
 import com.akilgao.testalpha.guide.GuideActivity;
+import com.akilgao.testalpha.sign.SignActivity;
 import com.akilgao.testalpha.window.JumpActivity;
 
 import java.io.File;
@@ -54,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startJump(View view) {
         startActivity(new Intent(this, JumpActivity.class));
+    }
+
+    public void fakeSign(View view) {
+        startActivity(new Intent(this, SignActivity.class));
     }
 
     public void init(View view) {
