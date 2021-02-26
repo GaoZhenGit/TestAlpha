@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.akilgao.testalpha.R;
@@ -17,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class SignActivity extends AppCompatActivity {
+    private EditText mEtPkgName;
     private TextView mTvTextViewBase64;
     private TextView mTvTextViewSha1;
     private TextView mTvTextViewMd5;
@@ -25,6 +27,8 @@ public class SignActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
+        mEtPkgName = findViewById(R.id.et_pkg_name);
+        mEtPkgName.setText(getPackageName());
         mTvTextViewBase64 = findViewById(R.id.tv_signature_base64);
         mTvTextViewSha1 = findViewById(R.id.tv_signature_sha1);
         mTvTextViewMd5 = findViewById(R.id.tv_signature_md5);
@@ -39,14 +43,14 @@ public class SignActivity extends AppCompatActivity {
         Log.i("SignActivity", "sha1:" + sha1);
         mTvTextViewSha1.setText("sha1:" + sha1);
 
-        String md5= getSignatureSha1(this);
+        String md5= getSignatureMd5(this);
         Log.i("SignActivity", "md5:" + md5);
         mTvTextViewMd5.setText("md5:" + md5);
     }
 
     public String getSignatureBase64(Context context) {
         try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo info = context.getPackageManager().getPackageInfo(mEtPkgName.getText().toString(), PackageManager.GET_SIGNATURES);
             byte[] cert = info.signatures[0].toByteArray();
             return Base64.encodeToString(cert, Base64.DEFAULT);
         } catch (PackageManager.NameNotFoundException e) {
@@ -57,7 +61,7 @@ public class SignActivity extends AppCompatActivity {
 
     public String getSignatureSha1(Context context) {
         try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo info = context.getPackageManager().getPackageInfo(mEtPkgName.getText().toString(), PackageManager.GET_SIGNATURES);
             byte[] cert = info.signatures[0].toByteArray();
             MessageDigest md = MessageDigest.getInstance("SHA1");
             byte[] publicKey = md.digest(cert);
@@ -72,9 +76,9 @@ public class SignActivity extends AppCompatActivity {
 
     public String getSignatureMd5(Context context) {
         try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo info = context.getPackageManager().getPackageInfo(mEtPkgName.getText().toString(), PackageManager.GET_SIGNATURES);
             byte[] cert = info.signatures[0].toByteArray();
-            MessageDigest md = MessageDigest.getInstance("SHA1");
+            MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] publicKey = md.digest(cert);
             return byteArrayToHex(publicKey);
         } catch (PackageManager.NameNotFoundException e) {

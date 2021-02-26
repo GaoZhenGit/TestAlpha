@@ -11,4 +11,5 @@ public class MyApplication extends Application {
         super.attachBaseContext(base);
         SignatureHookTool.hook(this);
     }
+
 }

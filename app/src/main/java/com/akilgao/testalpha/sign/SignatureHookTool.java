@@ -3,6 +3,8 @@ package com.akilgao.testalpha.sign;
 import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
+import android.content.pm.VersionedPackage;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
@@ -29,15 +31,20 @@ public class SignatureHookTool {
 
     public static void hook(Application application) {
         try {
-            Class clzClassActivityThread = Class.forName("android.app.ActivityThread");
-            Field fieldIPackageManager = clzClassActivityThread.getDeclaredField("sPackageManager");
-            fieldIPackageManager.setAccessible(true);
-            Object sPackageManager = fieldIPackageManager.get(null);
-            Class clzIPackageManager = Class.forName("android.content.pm.IPackageManager");
+            Class<?> clzClassActivityThread = Class.forName("android.app.ActivityThread");
+            //拿到内部的真实pm的实例（不能直接反射sPackageManager，因为可能是第一次调用没有实例化）
+            Method methodGetPackageManager = clzClassActivityThread.getDeclaredMethod("getPackageManager");
+            methodGetPackageManager.setAccessible(true);
+            Object sPackageManager = methodGetPackageManager.invoke(null);
+            //构建pm动态代理实例，包裹在真实pm之外
+            Class<?> clzIPackageManager = Class.forName("android.content.pm.IPackageManager");
             Object proxyPackageManager = Proxy.newProxyInstance(clzClassActivityThread.getClassLoader(),
                     new Class[]{clzIPackageManager},
-                    new FakePackageManager(sPackageManager)
+                    new FakePackageManager(application, sPackageManager)
             );
+            //将pm动态代理设置回原来的sPackageManager位置
+            Field fieldIPackageManager = clzClassActivityThread.getDeclaredField("sPackageManager");
+            fieldIPackageManager.setAccessible(true);
             fieldIPackageManager.set(null, proxyPackageManager);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,10 +52,13 @@ public class SignatureHookTool {
     }
 
     public static class FakePackageManager implements InvocationHandler {
+        private Application mApplication;
         private Object mRealPackageManager;
+        //此处的数据就是模拟原有的apk签名。具体获取方法可以通过自行写demo，获得app的签名数据（别的app数据也能获取到）
         byte[] fakeSignature = Base64.decode(SIGN, Base64.DEFAULT);
 
-        public FakePackageManager(Object realPackageManager) {
+        public FakePackageManager(Application application, Object realPackageManager) {
+            mApplication = application;
             mRealPackageManager = realPackageManager;
         }
 
@@ -56,10 +66,24 @@ public class SignatureHookTool {
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Log.i("SignatureHookTool", "invoke:" + method.getName());
             if (method.getName().equals("getPackageInfo")) {
-                Signature signature = new Signature(fakeSignature);
-                PackageInfo info = (PackageInfo) method.invoke(mRealPackageManager, args);
-                info.signatures[0] = signature;
-                return info;
+                String pkgName = "";
+                if (args != null && args.length > 0) {
+                    if (args[0] instanceof String) {
+                        pkgName = (String) args[0];
+                    }
+                }
+                if (mApplication.getPackageName().equals(pkgName)) {
+                    Signature signature = new Signature(fakeSignature);
+                    PackageInfo info = (PackageInfo) method.invoke(mRealPackageManager, args);
+                    if (info.signatures == null) {
+                        info.signatures = new Signature[1];
+                    }
+                    info.signatures[0] = signature;
+                    Log.i("SignatureHookTool", "hook success");
+                    return info;
+                } else {
+                    return method.invoke(mRealPackageManager, args);
+                }
             } else {
                 return method.invoke(mRealPackageManager, args);
             }

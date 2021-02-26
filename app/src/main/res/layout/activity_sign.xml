@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context=".sign.SignActivity">
 
+    <EditText
+        android:id="@+id/et_pkg_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:id="@+id/btn_show_signature"
         android:layout_width="match_parent"
